@@ -1,29 +1,32 @@
 {
-    "allAvailableWidgets": [
-      { "id": "cw1", "name": "Cloud Accounts", "category": "CSPM" },
-      { "id": "cw2", "name": "Cloud Account Risk Assessment", "category": "CSPM" },
-      { "id": "cw3", "name": "Top 5 Namespace Specific Alerts", "category": "CWPP" },
-      { "id": "cw4", "name": "Workload Alerts", "category": "CWPP" },
-      { "id": "cw5", "name": "Image Risk Assessment", "category": "Registry Scan" },
-      { "id": "cw6", "name": "Image Security Issues", "category": "Registry Scan" },
-      { "id": "cw7", "name": "Compliance Status", "category": "CSPM" },
-      { "id": "cw8", "name": "Pod Security Alerts", "category": "CWPP" }
-    ],
-    "dashboardLayout": [
-      {
-        "id": "cat1",
-        "title": "CSPM Executive Dashboard",
-        "widgets": ["cw1", "cw2"]
-      },
-      {
-        "id": "cat2",
-        "title": "CWPP Dashboard",
-        "widgets": []
-      },
-      {
-        "id": "cat3",
-        "title": "Registry Scan",
-        "widgets": ["cw5", "cw6"]
-      }
-    ]
-  }
+  "allAvailableWidgets": [
+    { "id": "cw1", "name": "Cloud Accounts", "category": "CSPM" },
+    { "id": "cw2", "name": "Cloud Account Risk Assessment", "category": "CSPM" },
+    { "id": "cw3", "name": "Top 5 Namespace Specific Alerts", "category": "CWPP" },
+    { "id": "cw4", "name": "Workload Alerts", "category": "CWPP" },
+    { "id": "cw5", "name": "Image Risk Assessment", "category": "Registry Scan" },
+    { "id": "cw6", "name": "Image Security Issues", "category": "Registry Scan" },
+    { "id": "cw7", "name": "Compliance Status", "category": "CSPM" },
+    { "id": "cw8", "name": "Pod Security Alerts", "category": "CWPP" }
+  ],
+  "dashboardLayout": [
+    {
+      "id": "cat1",
+      "title": "CSPM Executive Dashboard",
+      "categoryKey": "CSPM",
+      "widgets": ["cw1", "cw2"]
+    },
+    {
+      "id": "cat2",
+      "title": "CWPP Dashboard",
+      "categoryKey": "CWPP",
+      "widgets": []
+    },
+    {
+      "id": "cat3",
+      "title": "Registry Scan",
+      "categoryKey": "Registry Scan",
+      "widgets": ["cw5", "cw6"]
+    }
+  ]
+}

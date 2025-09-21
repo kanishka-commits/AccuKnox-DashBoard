@@ -3,6 +3,8 @@ import { useDashboardStore } from '../store';
 import { PieChart, Pie, Cell, BarChart, Bar, XAxis, Tooltip, ResponsiveContainer, Legend } from 'recharts';
 import chartData from '../mockChartData.json';
 
+// --- Chart components are unchanged, so they are omitted for brevity ---
+
 // Define color palettes for both themes
 const THEME_CHART_COLORS = {
   light: {
@@ -125,9 +127,10 @@ const WIDGET_COMPONENTS = {
   cw7: (props) => <ThemedPieChart {...props} />,
 };
 
+
 const WidgetCard = ({ widget, categoryId }) => {
   const removeWidget = useDashboardStore((state) => state.removeWidget);
-  const theme = useDashboardStore((state) => state.theme); // Get the current theme
+  const theme = useDashboardStore((state) => state.theme);
 
   const handleRemove = (e) => {
     e.stopPropagation();
@@ -139,15 +142,28 @@ const WidgetCard = ({ widget, categoryId }) => {
 
   return (
     <div className="widget-card">
-      <button className="remove-btn" onClick={handleRemove}>×</button>
       <div className="widget-header">
         <h3>{widget.name}</h3>
+        <div className="widget-controls">
+          <button className="widget-btn" onClick={handleRemove} title="Remove Widget">
+            {/* Trash Can Icon */}
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>
+          </button>
+           <button className="widget-btn" title="More Options">
+            {/* More Options (Kebab) Icon */}
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="2"/><circle cx="12" cy="5" r="2"/><circle cx="12" cy="19" r="2"/></svg>
+          </button>
+        </div>
       </div>
       <div className="widget-content">
         {ChartComponent && dataForChart ? (
           <ChartComponent data={dataForChart} theme={theme} />
         ) : (
-          <div className="no-graph-data">No Graph data available!</div>
+          <div className="no-graph-data">
+            {/* No Data Icon */}
+            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+            <p>No data available</p>
+          </div>
         )}
       </div>
     </div>

@@ -1,29 +1,45 @@
 import { create } from 'zustand';
+import { persist } from 'zustand/middleware'; // 1. Import the persist middleware
 import initialData from './dashboardData.json';
 
-export const useDashboardStore = create((set) => ({
-  // --- NEW STATE ---
-  theme: 'light', // Can be 'light' or 'dark'
+export const useDashboardStore = create(
+  // 2. Wrap your entire store definition in the persist function
+  persist(
+    (set) => ({
+      // State (no changes here)
+      layout: initialData.dashboardLayout,
+      allWidgets: initialData.allAvailableWidgets,
+      theme: 'light',
 
-  // --- EXISTING STATE ---
-  layout: initialData.dashboardLayout,
-  allWidgets: initialData.allAvailableWidgets,
+      // Actions (no changes here)
+      toggleTheme: () => set((state) => ({ theme: state.theme === 'light' ? 'dark' : 'light' })),
 
-  // --- ACTIONS ---
-  removeWidget: (categoryId, widgetId) =>
-    set((state) => ({
-      layout: state.layout.map((category) =>
-        category.id === categoryId
-          ? { ...category, widgets: category.widgets.filter((id) => id !== widgetId) }
-          : category
-      ),
-    })),
-  
-  setDashboardLayout: (newLayout) => set({ layout: newLayout }),
+      resetLayout: () => set({ layout: initialData.dashboardLayout }),
 
-  // --- NEW ACTION for Dark Mode ---
-  toggleTheme: () => set((state) => ({ theme: state.theme === 'light' ? 'dark' : 'light' })),
+      removeWidget: (categoryId, widgetId) =>
+        set((state) => ({
+          layout: state.layout.map((category) =>
+            category.id === categoryId
+              ? { ...category, widgets: category.widgets.filter((id) => id !== widgetId) }
+              : category
+          ),
+        })),
 
-  // --- NEW ACTION for Reset Button ---
-  resetLayout: () => set({ layout: initialData.dashboardLayout }),
-}));
+      updateCategoryWidgets: (categoryId, newWidgetIds) =>
+        set((state) => ({
+          layout: state.layout.map((category) =>
+            category.id === categoryId ? { ...category, widgets: newWidgetIds } : category
+          ),
+        })),
+    }),
+    // 3. Add the configuration object for the persist middleware
+    {
+      name: 'dashboard-storage', // The key for the data in local storage
+      // This function specifies which parts of your state you want to save
+      partialize: (state) => ({
+        layout: state.layout,
+        theme: state.theme,
+      }),
+    }
+  )
+);

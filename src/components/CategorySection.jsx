@@ -4,13 +4,13 @@ import WidgetCard from './WidgetCard';
 import AddWidgetModal from './AddWidgetModal';
 
 const CategorySection = ({ category }) => {
-  const { title, widgets: widgetIds, id: categoryId } = category;
+  const { title, widgets: widgetIds, id: categoryId, categoryKey } = category;
   const allWidgets = useDashboardStore((state) => state.allWidgets);
   const [isModalOpen, setModalOpen] = useState(false);
 
-  // Get full widget objects from their IDs
   const widgets = widgetIds.map(id => allWidgets.find(w => w.id === id)).filter(Boolean);
 
+  // A single, consistent layout for ALL categories.
   return (
     <div className="category-section">
       <div className="category-header">
@@ -20,7 +20,6 @@ const CategorySection = ({ category }) => {
         {widgets.map((widget) => (
           <WidgetCard key={widget.id} widget={widget} categoryId={categoryId} />
         ))}
-        {/* The per-category "+ Add Widget" card */}
         <div className="widget-card add-widget-card" onClick={() => setModalOpen(true)}>
           <div className="add-widget-content">
             + Add Widget
@@ -28,11 +27,11 @@ const CategorySection = ({ category }) => {
         </div>
       </div>
 
-      {/* The modal is now controlled by this component again */}
       {isModalOpen && (
         <AddWidgetModal
           categoryId={categoryId}
           onClose={() => setModalOpen(false)}
+          initialTab={categoryKey}
         />
       )}
     </div>
