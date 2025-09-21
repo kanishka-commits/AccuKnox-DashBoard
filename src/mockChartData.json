@@ -1,0 +1,31 @@
+{
+    "cw1": [
+      { "name": "Connected", "value": 2, "color": "#4285F4" },
+      { "name": "Not Connected", "value": 2, "color": "#BDC1C6" }
+    ],
+    "cw2": [
+      { "name": "Passed", "value": 7253, "color": "#4CAF50" },
+      { "name": "Warning", "value": 681, "color": "#FFC107" },
+      { "name": "Failed", "value": 1089, "color": "#F44336" }
+    ],
+    "cw5": {
+      "total": 1470,
+      "data": [
+        { "name": "Critical", "value": 96, "color": "#F44336" },
+        { "name": "High", "value": 190, "color": "#FF9800" },
+        { "name": "Medium", "value": 430, "color": "#FFC107" },
+        { "name": "Low", "value": 754, "color": "#4CAF50" }
+      ]
+    },
+    "cw6": {
+      "total": 2,
+      "data": [
+         { "name": "Critical", "value": 1, "color": "#F44336" },
+         { "name": "High", "value": 1, "color": "#FF9800" }
+      ]
+    },
+    "cw7": [
+      { "name": "Compliant", "value": 85, "color": "#4CAF50" },
+      { "name": "Non-Compliant", "value": 15, "color": "#F44336" }
+    ]
+  }
