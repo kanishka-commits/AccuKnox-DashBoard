@@ -1,3 +1,5 @@
+/* AddWidgetModal.css */
+
 /* Overlay stays the same */
 .modal-overlay {
   position: fixed;
@@ -15,6 +17,7 @@
   top: 0;
   right: 0;
   width: 400px;
+  max-width: 95vw; /* Add max-width to prevent overflow on very small screens */
   height: 100%;
   background-color: var(--card-background-color);
   color: var(--text-color-secondary);
@@ -134,4 +137,15 @@
   background: var(--primary-accent-color);
   border-color: var(--primary-accent-color);
   color: white;
+}
+
+/* --- RESPONSIVENESS --- */
+
+/* For mobile devices */
+@media (max-width: 480px) {
+  .modal-content {
+    width: 100%; /* Make modal take full width */
+    max-width: 100vw; /* Override the desktop max-width */
+    box-shadow: none; /* Remove shadow for a flatter, full-screen look */
+  }
 }

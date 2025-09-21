@@ -1,3 +1,4 @@
+/* App.css */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
 
 /* :root defines the default (light) theme variables */
@@ -53,6 +54,8 @@ body {
   border-bottom: 1px solid var(--border-color);
   background-color: var(--background-color);
   transition: border-color 0.3s, background-color 0.3s;
+  flex-wrap: wrap; /* Allow items to wrap on smaller screens */
+  gap: 16px; /* Add gap for when items wrap */
 }
 .breadcrumbs { color: var(--text-color-tertiary); font-size: 0.9rem; }
 
@@ -120,8 +123,10 @@ body {
 }
 .widgets-container {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); /* More responsive grid */
-  gap: 28px; /* More breathing room */
+  /* This grid is already responsive! `auto-fill` creates as many columns as will fit. */
+  /* `minmax(300px, 1fr)` means each column must be at least 300px. */
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); 
+  gap: 28px;
   margin-bottom: 40px;
 }
 
@@ -215,3 +220,53 @@ body {
 }
 .no-graph-data p { margin: 0; font-size: 0.9rem; }
 .no-graph-data svg { stroke: var(--text-color-tertiary); }
+
+
+/* --- RESPONSIVENESS --- */
+
+/* For tablets and smaller devices */
+@media (max-width: 1024px) {
+  .app-container {
+    padding: 0 24px; /* Reduce side padding */
+  }
+
+  .search-bar {
+    width: 250px; /* Make search bar smaller */
+  }
+}
+
+/* For mobile devices */
+@media (max-width: 768px) {
+  .app-container {
+    padding: 0 16px; /* Further reduce side padding */
+  }
+
+  .app-header {
+    flex-direction: column; /* Stack header items vertically */
+    align-items: stretch; /* Make items take full width */
+  }
+
+  .search-bar {
+    width: 100%; /* Make search bar full width */
+    box-sizing: border-box; /* Include padding in width calculation */
+  }
+
+  .header-right {
+    width: 100%;
+    justify-content: space-between; /* Spread out the buttons */
+  }
+  
+  .dashboard-title {
+    padding: 24px 0 16px 0;
+  }
+
+  .dashboard-title h1 {
+    font-size: 1.5rem; /* Reduce title font size */
+  }
+
+  .widgets-container {
+    /* Make the grid columns slightly smaller on mobile */
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 16px; /* Reduce gap between widgets */
+  }
+}
