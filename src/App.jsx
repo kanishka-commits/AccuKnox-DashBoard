@@ -1,11 +1,10 @@
-import React, {useState} from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDashboardStore } from './store';
 import CategorySection from './components/CategorySection';
-import AddWidgetModal from './components/AddWidgetModal'; // Assuming this is your modal component
+import AddWidgetModal from './components/AddWidgetModal';
 import './App.css';
 
 function App() {
-  // Get new state and actions from the store
   const layout = useDashboardStore((state) => state.layout);
   const theme = useDashboardStore((state) => state.theme);
   const toggleTheme = useDashboardStore((state) => state.toggleTheme);
@@ -13,9 +12,14 @@ function App() {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  // The main container now gets a class of 'light' or 'dark'
+  useEffect(() => {
+    const body = document.body;
+    body.classList.remove('light', 'dark');
+    body.classList.add(theme);
+  }, [theme]);
+
   return (
-    <div className={`app-container ${theme}`}>
+    <div className="app-container">
       <header className="app-header">
         <div className="header-left">
           <p className="breadcrumbs">Home &gt; Dashboard V2</p>
@@ -25,9 +29,13 @@ function App() {
         </div>
         <div className="header-right">
           <button className="header-btn" onClick={() => setIsModalOpen(true)}>Add Widget +</button>
-          {/* Reset button is now functional */}
-          <button className="icon-btn" onClick={resetLayout} title="Reset Layout">🔄</button>
-          {/* New theme toggle button */}
+          {/* The emoji has been replaced with an SVG icon for consistency */}
+          <button className="icon-btn" onClick={resetLayout} title="Reset Layout">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <polyline points="1 4 1 10 7 10"></polyline>
+              <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path>
+            </svg>
+          </button>
           <button className="icon-btn" onClick={toggleTheme} title="Toggle Theme">
             {theme === 'light' ? '🌙' : '☀️'}
           </button>
