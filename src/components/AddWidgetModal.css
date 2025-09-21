@@ -14,12 +14,13 @@
   position: fixed;
   top: 0;
   right: 0;
-  width: 400px; /* adjust width as needed */
+  width: 400px;
   height: 100%;
-  background-color: #fff;
+  background-color: var(--card-background-color);
+  color: var(--text-color-secondary);
   box-shadow: -4px 0 10px rgba(0,0,0,0.3);
   transform: translateX(100%); /* start hidden on right */
-  transition: transform 0.3s ease-in-out;
+  transition: transform 0.3s ease-in-out, background-color 0.3s, color 0.3s;
   display: flex;
   flex-direction: column;
   z-index: 1001;
@@ -34,7 +35,7 @@
 /* Header, body, footer styling */
 .modal-header {
   padding: 16px;
-  border-bottom: 1px solid #ddd;
+  border-bottom: 1px solid var(--border-color);
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -45,6 +46,7 @@
   border: none;
   font-size: 24px;
   cursor: pointer;
+  color: var(--text-color-light);
 }
 
 .modal-body {
@@ -60,23 +62,28 @@
 
 .tab-btn {
   padding: 6px 12px;
-  border: none;
+  border: 1px solid var(--border-color);
   cursor: pointer;
-  background: #f0f0f0;
+  background: var(--background-color);
+  color: var(--text-color-secondary);
   border-radius: 4px;
 }
 
 .tab-btn.active {
-  background: #007bff;
+  background: var(--primary-accent-color);
+  border-color: var(--primary-accent-color);
   color: white;
 }
 
 .search-input {
   width: 100%;
+  box-sizing: border-box;
   padding: 8px;
   margin-bottom: 12px;
   border-radius: 4px;
-  border: 1px solid #ccc;
+  border: 1px solid var(--border-color);
+  background-color: var(--background-color);
+  color: var(--text-color-secondary);
 }
 
 .widget-list {
@@ -87,28 +94,44 @@
 
 .widget-list li {
   margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+}
+
+.widget-list label {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.widget-list input[type="checkbox"] {
+  margin-right: 8px;
+  accent-color: var(--primary-accent-color);
 }
 
 .modal-footer {
   padding: 16px;
-  border-top: 1px solid #ddd;
+  border-top: 1px solid var(--border-color);
   display: flex;
   justify-content: flex-end;
   gap: 8px;
+  background-color: var(--background-color);
 }
 
 .btn-cancel, .btn-confirm {
   padding: 8px 16px;
   cursor: pointer;
   border-radius: 4px;
-  border: none;
+  border: 1px solid var(--border-color);
 }
 
 .btn-cancel {
-  background: #f0f0f0;
+  background: var(--card-background-color);
+  color: var(--text-color-secondary);
 }
 
 .btn-confirm {
-  background: #007bff;
+  background: var(--primary-accent-color);
+  border-color: var(--primary-accent-color);
   color: white;
 }

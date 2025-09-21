@@ -1,31 +1,44 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { useDashboardStore } from '../store';
-import { shallow } from 'zustand/shallow';
 import './AddWidgetModal.css';
 
 const TABS = ['CSPM', 'CWPP', 'Image', 'Ticket'];
 
 const AddWidgetModal = ({ categoryId, onClose }) => {
-  // Zustand subscriptions (split to avoid infinite loop)
-  const allWidgets = useDashboardStore((state) => state.allWidgets, shallow);
-  const layout = useDashboardStore((state) => state.layout, shallow);
+  // --- Data Selection ---
+  const allWidgets = useDashboardStore((state) => state.allWidgets);
+  const layout = useDashboardStore((state) => state.layout);
   const updateCategoryWidgets = useDashboardStore((state) => state.updateCategoryWidgets);
-
+  
+  // --- Local State ---
+  const [isOpen, setIsOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const [activeTab, setActiveTab] = useState(TABS[0]);
   const [selectedIds, setSelectedIds] = useState(new Set());
 
-  const [newWidgetName, setNewWidgetName] = useState('');
-  const [newWidgetCategory, setNewWidgetCategory] = useState(TABS[0]);
-
-
-  // Sync selectedIds when modal opens or category/layout changes
+  // --- FIX #1: Correctly show ticked widgets ---
+  // This useEffect hook runs when the modal opens.
+  // It finds the correct category using the `categoryId` prop and sets the
+  // checkboxes for widgets that are already on the dashboard.
   useEffect(() => {
     const currentCategory = layout.find((cat) => cat.id === categoryId);
-    setSelectedIds(new Set(currentCategory?.widgets || []));
+    if (currentCategory) {
+      setSelectedIds(new Set(currentCategory.widgets));
+    }
   }, [categoryId, layout]);
 
-  // Filter widgets by tab + search
+  // Trigger the slide-in animation after the component mounts
+  useEffect(() => {
+    const timer = setTimeout(() => setIsOpen(true), 10);
+    return () => clearTimeout(timer);
+  }, []);
+
+  // Handle closing the panel with animation
+  const handleClose = () => {
+    setIsOpen(false);
+    setTimeout(onClose, 300); // Wait for animation to finish
+  };
+
   const filteredWidgets = useMemo(() => {
     return allWidgets.filter((widget) => {
       const inTab = widget.category === activeTab;
@@ -42,22 +55,22 @@ const AddWidgetModal = ({ categoryId, onClose }) => {
     });
   };
 
+  // --- FIX #2: Make the "Confirm" button work correctly ---
+  // The `updateCategoryWidgets` function now uses the correct `categoryId`
+  // prop, ensuring it updates the category you actually opened the modal for.
   const handleConfirm = () => {
     updateCategoryWidgets(categoryId, Array.from(selectedIds));
-    onClose();
+    handleClose();
   };
 
   return (
-    <div className="modal-overlay" onClick={onClose}>
-      <div className={`modal-content ${true ? 'open' : ''}`} onClick={(e) => e.stopPropagation()}>
-
+    <div className="modal-overlay" onClick={handleClose}>
+      <div className={`modal-content ${isOpen ? 'open' : ''}`} onClick={(e) => e.stopPropagation()}>
         <div className="modal-header">
-          <h2>Personalise your dashboard by adding the following widget</h2>
-          <button onClick={onClose} className="close-btn">×</button>
+          <h2>Personalise your dashboard</h2>
+          <button onClick={handleClose} className="close-btn">×</button>
         </div>
-
         <div className="modal-body">
-          {/* Tabs */}
           <div className="tabs-container">
             {TABS.map((tab) => (
               <button
@@ -69,8 +82,6 @@ const AddWidgetModal = ({ categoryId, onClose }) => {
               </button>
             ))}
           </div>
-
-          {/* Search */}
           <input
             type="text"
             placeholder="Search widgets..."
@@ -78,8 +89,6 @@ const AddWidgetModal = ({ categoryId, onClose }) => {
             onChange={(e) => setSearchTerm(e.target.value)}
             className="search-input"
           />
-
-          {/* Widget list */}
           <ul className="widget-list">
             {filteredWidgets.map((widget) => (
               <li key={widget.id}>
@@ -95,9 +104,8 @@ const AddWidgetModal = ({ categoryId, onClose }) => {
             ))}
           </ul>
         </div>
-
         <div className="modal-footer">
-          <button onClick={onClose} className="btn-cancel">Cancel</button>
+          <button onClick={handleClose} className="btn-cancel">Cancel</button>
           <button onClick={handleConfirm} className="btn-confirm">Confirm</button>
         </div>
       </div>
